@@ -23,7 +23,7 @@ nfs-showmount #Like showmount -e
 nfs-statfs #Disk statistics and info from NFS share
 ```
 i.e
-```bash
+```python3
 ┌──(root㉿kali)-[/home/beri]
 └─# nmap -sC -sV builder.htb -p111 --script=nfs-showmount,nfs-ls,nfs-statfs
 Starting Nmap 7.93 ( https://nmap.org ) at 2023-05-11 11:22 PKT
@@ -90,4 +90,44 @@ PORT    STATE SERVICE VERSION
 
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 Nmap done: 1 IP address (1 host up) scanned in 12.17 seconds
+```
+
+### Connecting to NFS
+we can use mount to mount the files to our system.
+```python3
+mount -t nfs server:/path/to/share /mount/point
+```
+```python3
+┌──(root㉿kali)-[/home/beri]
+└─# mount -t nfs builder.htb:/home/ross /tmp
+                                                                                    
+┌──(root㉿kali)-[/home/beri]
+└─# cd /tmp                   
+                                                                                    
+┌──(root㉿kali)-[/tmp]
+└─# ls
+Desktop  Documents  Downloads  Music  Pictures  Public  Templates  Videos
+                                                                                    
+┌──(root㉿kali)-[/tmp]
+└─# ls -la
+total 68
+drwxr-xr-x 14 1001 1001 4096 May 11 10:08 .
+drwxr-xr-x 19 root root 4096 May  5 15:22 ..
+lrwxrwxrwx  1 root root    9 Oct 20  2022 .bash_history -> /dev/null
+drwx------ 11 1001 1001 4096 Oct 21  2022 .cache
+drwx------ 12 1001 1001 4096 Oct 21  2022 .config
+drwxr-xr-x  2 1001 1001 4096 Oct 21  2022 Desktop
+drwxr-xr-x  2 1001 1001 4096 Oct 21  2022 Documents
+drwxr-xr-x  2 1001 1001 4096 Oct 21  2022 Downloads
+drwx------  3 1001 1001 4096 Oct 21  2022 .gnupg
+drwx------  3 1001 1001 4096 Oct 21  2022 .local
+drwxr-xr-x  2 1001 1001 4096 Oct 21  2022 Music
+drwxr-xr-x  2 1001 1001 4096 Oct 21  2022 Pictures
+drwxr-xr-x  2 1001 1001 4096 Oct 21  2022 Public
+drwxr-xr-x  2 1001 1001 4096 Oct 21  2022 Templates
+drwxr-xr-x  2 1001 1001 4096 Oct 21  2022 Videos
+lrwxrwxrwx  1 root root    9 Oct 21  2022 .viminfo -> /dev/null
+-rw-------  1 1001 1001   57 May 11 10:08 .Xauthority
+-rw-------  1 1001 1001 2475 May 11 10:08 .xsession-errors
+-rw-------  1 1001 1001 2475 Dec 27 20:33 .xsession-errors.old
 ```
